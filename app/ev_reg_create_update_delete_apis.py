@@ -60,7 +60,7 @@ from autopylogger import init_logging
 import os
 
 # Logger utility. Supports auto-rotate, loglevels and formats. Helps build unified logging structure for all APIs.
-logger = init_logging(log_name='ev_apis_logs', log_directory="/Users/anuragshrivastava/Desktop/work/ev_apis/logs", console_log=True, log_level='DEBUG', log_format='[%(asctime)s]|%(levelname)s|%(filename)s|%(funcName)s|Line: %(lineno)d|%(message)s')
+logger = init_logging(log_name='ev_apis_logs', log_directory="/tmp", console_log=True, log_level='DEBUG', log_format='[%(asctime)s]|%(levelname)s|%(filename)s|%(funcName)s|Line: %(lineno)d|%(message)s')
 
 route_name=""
 get_api_username = "admin"
@@ -946,3 +946,5 @@ def delete_model():
    lmsg = 'Unimplemented API. Implementation very similar to other APIs in the same class.. Assumption: All the foreign keys are already deleted.'
    log_api_completion_time(logger, route_id, api_start_time)
    return jsonify({"msg": lmsg}), 200       
+
+app.run(debug=True, host='0.0.0.0', port=5002)

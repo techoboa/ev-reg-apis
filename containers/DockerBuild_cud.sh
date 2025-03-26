@@ -10,7 +10,7 @@
 
 version=$1
 docker build -t ev-app-cud . -f Dockerfile_ev_apis_cud
-image=[registry_user_name]/ev-app-cud:v$version
+image=anuragpppp/ev-app-cud:v$version
 docker tag ev-app-cud:latest $image
 docker push $image
  

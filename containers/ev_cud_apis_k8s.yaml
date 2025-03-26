@@ -18,7 +18,7 @@ spec:
         app: ev-cud-app
     spec:
       containers:
-      - image: anuragpppp/ev-app-cud:v3
+      - image: [image]:[version]
         name: ev-cud-app
 
 ---

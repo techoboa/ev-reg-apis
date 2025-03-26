@@ -25,7 +25,7 @@ from log_helper import *
 import configparser
 
 dbConfig = configparser.RawConfigParser()   
-dbConfigFile = r'/app/containers/ev-apis/config/db.properties'
+dbConfigFile = r'./db.properties'
 dbConfig.read(dbConfigFile)
 
 ## DB specific variables
