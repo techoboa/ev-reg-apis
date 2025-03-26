@@ -1,0 +1,72 @@
+#############################################################################################
+# Author                Date            Version         Change
+# Anurag Shrivastava    03/26/2025      1.0             Kubernetes manifest file for EV CUD APIs (Create/Update/Delete).
+#                                                       Creates - Deployment (pods), Ingress, Cluster IP and Node Port (for minikube) Services
+#############################################################################################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ev-cud-app
+spec:
+  selector:
+    matchLabels:
+      app: ev-cud-app
+  template:
+    metadata:
+      labels:
+        app: ev-cud-app
+    spec:
+      containers:
+      - image: anuragpppp/ev-app-cud:v3
+        name: ev-cud-app
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ev-cud-app
+spec:
+  type: ClusterIP
+  ports:
+  - name: "ev-cud-app"
+    port: 5001
+  selector:
+    app: ev-cud-app
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ev-cud-app
+  annotations:
+    dev.okteto.com/generate-host: ev-cud-app
+spec:
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: ev-cud-app
+                port:
+                  number: 5001
+            path: /
+            pathType: ImplementationSpecific
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ev-cud-app-service-nodeport
+spec:
+  selector:
+    app: ev-cud-app
+  ports:
+  - protocol: TCP
+    port: 5002
+    nodePort: 30011
+  type: NodePort
+

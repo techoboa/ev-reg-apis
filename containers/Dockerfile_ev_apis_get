@@ -1,0 +1,29 @@
+#############################################################################################
+# Author                Date            Version         Change
+# Anurag Shrivastava    03/26/2025      1.0             Docker manifest file for EV GET APIs (Read).
+#                                                       Uses official python image, installs pre-reqs, exports ports and env variables and deplyes the application.
+#############################################################################################
+
+# Use an official Python runtime as a parent image
+FROM python:3.8-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+ADD . /app
+
+# Install any needed dependencies
+RUN apt update && apt -y upgrade && apt -y install curl && apt-get -y install procps && apt -y install net-tools && apt-get install libpq5 && apt-get install libssl-dev && apt-get install libpq-dev && apt-get install netcat-traditional && apt-get -y install vim
+
+# Install any needed dependencies
+RUN pip3 install flask && pip3 install fastapi && pip3 install uvicorn && pip3 install pytest && pip3 install httpx && pip3 install psycopg2-binary && pip3 install autopylogger && pip3 install requests
+
+# Make port EV_API_PORTS available to the world outside this container
+EXPOSE 5001
+
+# Define environment variables
+ENV NAME=EV_GET_APIS
+
+# Run ev_reg_read_apis.py when the container launches
+CMD ["python3", "./ev_reg_read_apis.py"]

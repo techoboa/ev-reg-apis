@@ -1,0 +1,72 @@
+#############################################################################################
+# Author                Date            Version         Change
+# Anurag Shrivastava    03/26/2025      1.0             Kubernetes manifest file for EV GET APIs (Read).
+#                                                       Creates - Deployment (pods), Ingress, Cluster IP and Node Port (for minikube) Services
+#############################################################################################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ev-get-app
+spec:
+  selector:
+    matchLabels:
+      app: ev-get-app
+  template:
+    metadata:
+      labels:
+        app: ev-get-app
+    spec:
+      containers:
+      - image: anuragpppp/ev-app:v5
+        name: ev-get-app
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ev-get-app
+spec:
+  type: ClusterIP
+  ports:
+  - name: "ev-get-app"
+    port: 5001
+  selector:
+    app: ev-get-app
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ev-get-app
+  annotations:
+    dev.okteto.com/generate-host: ev-get-app
+spec:
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: ev-get-app
+                port:
+                  number: 5001
+            path: /
+            pathType: ImplementationSpecific
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ev-get-app-service-nodeport
+spec:
+  selector:
+    app: ev-get-app
+  ports:
+  - protocol: TCP
+    port: 5001
+    nodePort: 30010
+  type: NodePort
+
