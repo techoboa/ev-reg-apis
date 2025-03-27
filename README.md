@@ -38,7 +38,7 @@ The database is normalized into various tables. Here are some considerations. (P
 9. The main Registraiton tables holds records like MSRP, GPS location etc. and joins the tables from #1 to #8 above to finally make the form. The following JOIN explains this all.
 
 
-[![alt text]](https://github.com/techoboa/ev-reg-apis/blob/main/pics/ERD_EV_DB.png)
+[![alt text]](https://github.com/techoboa/ev-reg-apis/blob/main/pics/ERD_EV_DB.png?raw=true)
 
 ```
 select			
