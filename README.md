@@ -25,9 +25,39 @@ I ran Postgres in a container and also deployed APIs in containers. In that rega
 - Kubernetes cluster/Minikube on laptop
 - Container registry of your choice. Could be docker hub or a local running container registry (on VM or in Docker). I am considering setting up Kubernetes cluster to be able to push/pull images from the registry of your choice, to be out of requirement. Assuming thats setup already.
   Running docker container registry in docker:  https://www.paulsblog.dev/how-to-install-a-private-docker-container-registry-in-kubernetes/
-  
 
 # How to deploy
+
+## On Kubernetes/Minikube:
+
+### Minikube
+
+brew uninstall minikube
+
+brew install minikube
+
+minikube start
+
+### Database
+Deploy postgres in containers using the following procedure. Followed this tutorial: https://medium.com/@hijessicahsu/deploy-postgres-on-minikube-5cd8f9ffc9c
+
+
+
+#### Creating Database
+#### Bulk Data Load Process
+
+### APIs
+#### Deploying APIs
+
+## On Laptop/VM:
+If you have a local postgres database on laptop, import the SQL script in the repo. Please manually create a schema named "m" under defaukt database postgres. I forgot to add the code for schema creation in the sql script. And yes, I am guilty of naming it a random "m". But later I have done a good job of naming all other objects.
+
+For API services, change the database details in the db.properties file and just run the two services file using:
+
+- All get APIs: python3 ev_reg_read_apis.py
+- All CUD APIs: python3 ev_reg_create_update_delete_apis.py
+
+The log and telemetry files are created by default in /tmp. Its hardcoded.
 
 ## Database
 ### Creating Database
