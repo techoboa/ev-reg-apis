@@ -481,7 +481,124 @@ https://github.com/techoboa/ev-reg-apis/tree/main/test_results
 
 # Updating Records for EV Model and Make (Tesla Model Y in this example)
 
+There are around ~50K records Tesla Model Y belonging to different states. Initially MSRP is 0. Looking at other models, seems like price of same make/model/year can vary among states. With this in mind, I created the following JSON map to map state, make, model and year to different prices. Used CSV DB Export and Converted to JSON after adding price.
+
+Then, I opened the JSON using SQL as a table row using a new feature JSON_TABLE in postgres. Updated the main table using JOINs as below.
+
+
+
+```
+do
+$$
+declare
+msrp_map text;
+BEGIN
+	msrp_map = '[ { "st": "AK", "make": "TESLA", "model": "MODEL Y", "m_year": 2021, "msrp": 50000 }, { "st": "AL", "make": "TESLA", "model": "MODEL Y", "m_year": 2021, "msrp": 50000 }, { "st": "AZ", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "AZ", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "CA", "make": "TESLA", "model": "MODEL Y", "m_year": 2020, "msrp": 40000 }, { "st": "CA", "make": "TESLA", "model": "MODEL Y", "m_year": 2021, "msrp": 50000 }, { "st": "CA", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "CA", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "CA", "make": "TESLA", "model": "MODEL Y", "m_year": 2024, "msrp": 50000 }, { "st": "CO", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "CO", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "CT", "make": "TESLA", "model": "MODEL Y", "m_year": 2021, "msrp": 50000 }, { "st": "CT", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "FL", "make": "TESLA", "model": "MODEL Y", "m_year": 2020, "msrp": 41000 }, { "st": "FL", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "FL", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "HI", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "ID", "make": "TESLA", "model": "MODEL Y", "m_year": 2021, "msrp": 50000 }, { "st": "IL", "make": "TESLA", "model": "MODEL Y", "m_year": 2021, "msrp": 50000 }, { "st": "KS", "make": "TESLA", "model": "MODEL Y", "m_year": 2024, "msrp": 50000 }, { "st": "LA", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "MA", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "MA", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "MD", "make": "TESLA", "model": "MODEL Y", "m_year": 2020, "msrp": 42000 }, { "st": "MD", "make": "TESLA", "model": "MODEL Y", "m_year": 2021, "msrp": 50000 }, { "st": "MD", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "MD", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "MD", "make": "TESLA", "model": "MODEL Y", "m_year": 2024, "msrp": 50000 }, { "st": "MO", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "NC", "make": "TESLA", "model": "MODEL Y", "m_year": 2021, "msrp": 50000 }, { "st": "NC", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "NC", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "NJ", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "NJ", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "NV", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "NY", "make": "TESLA", "model": "MODEL Y", "m_year": 2021, "msrp": 50000 }, { "st": "NY", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "NY", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "NY", "make": "TESLA", "model": "MODEL Y", "m_year": 2024, "msrp": 50000 }, { "st": "OH", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "OR", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "PA", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "RI", "make": "TESLA", "model": "MODEL Y", "m_year": 2021, "msrp": 50000 }, { "st": "SC", "make": "TESLA", "model": "MODEL Y", "m_year": 2021, "msrp": 50000 }, { "st": "TN", "make": "TESLA", "model": "MODEL Y", "m_year": 2024, "msrp": 50000 }, { "st": "TX", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "TX", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "TX", "make": "TESLA", "model": "MODEL Y", "m_year": 2024, "msrp": 50000 }, { "st": "VA", "make": "TESLA", "model": "MODEL Y", "m_year": 2020, "msrp": 43000 }, { "st": "VA", "make": "TESLA", "model": "MODEL Y", "m_year": 2021, "msrp": 50000 }, { "st": "VA", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "VA", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "VA", "make": "TESLA", "model": "MODEL Y", "m_year": 2024, "msrp": 50000 }, { "st": "WA", "make": "TESLA", "model": "MODEL Y", "m_year": 2020, "msrp": 44000 }, { "st": "WA", "make": "TESLA", "model": "MODEL Y", "m_year": 2021, "msrp": 50000 }, { "st": "WA", "make": "TESLA", "model": "MODEL Y", "m_year": 2022, "msrp": 50000 }, { "st": "WA", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 }, { "st": "WA", "make": "TESLA", "model": "MODEL Y", "m_year": 2024, "msrp": 50000 }, { "st": "WA", "make": "TESLA", "model": "MODEL Y", "m_year": 2025, "msrp": 50000 }, { "st": "WY", "make": "TESLA", "model": "MODEL Y", "m_year": 2023, "msrp": 50000 } ]';
+
+	update m.t_ev_regs r
+		set msrp = mp.msrp
+	from
+		JSON_TABLE(msrp_map, '$[*]' COLUMNS (
+			st text PATH '$.st',
+			make text PATH '$.make',
+			model text PATH '$.model',
+			m_year integer PATH '$.m_year',
+			msrp integer PATH '$.msrp'		
+		)) as mp,
+		m.t_models mo,
+		m.t_counties c,
+		m.t_states s,
+		m.t_reg_loc rl
+	where
+		mo.make = 'TESLA'
+		and mo.model = 'MODEL Y'
+		and r.id_model = mo.id_model
+		and r.id_reg_loc = rl.id_reg_loc
+		and c.id_county = rl.id_county
+		and c.id_state = s.id_state
+		and mo.make = mp.make
+		and mo.model = mp.model		
+		and mo.m_year = mp.m_year
+		and mp.st = s.st;
+		
+	commit;
+END
+$$
+```
+
 # Tracking and Telemetery
+
+- **Performance:**
+API call times and DB procedure/function times are being tracked and can be sent to telemetry servers. A unique end to end parameter (route id/run id) for each API call is tracked in app lgos and a database table.
+
+The API times are being reported into a file called telemetry_ev_get_apis.txt. This can be sent periodically (every min) to the Telemetry server. They have (like elastic search or splunk) capability to read only the chagnes.
+
+Alternatively, a light weight queueing engine like RabbitMQ, Mosquito etc. can be used to collect these for decoupling.
+
+```
+(base) /tmp % cat telemetry_ev_get_apis.txt
+ev_api_get_regs_by_dol_veh_id-20250326-090928344|2025-03-26 16:09:28.344170|2025-03-26 16:09:30.929152|0:00:02.584982
+ev_api_get_regs_by_dol_veh_id-20250326-091030469|2025-03-26 16:10:30.468790|2025-03-26 16:10:31.764578|0:00:01.295788
+ev_api_update_unimplemented-20250326-091042242|2025-03-26 16:10:42.242161|2025-03-26 16:10:42.242732|0:00:00.000571
+ev_api_get_regs_by_dol_veh_id-20250326-091107491|2025-03-26 16:11:07.491536|2025-03-26 16:11:09.640091|0:00:02.148555
+ev_api_get_regs_by_dol_veh_id-20250326-091110690|2025-03-26 16:11:10.690979|2025-03-26 16:11:10.926792|0:00:00.235813
+ev_api_get_regs_by_dol_veh_id-20250326-144000485|2025-03-26 21:40:00.485020|2025-03-26 21:40:16.270277|0:00:15.785257
+(base) /tmp % 
+```
+
+The database is also holding a table which shows the total run time of the procedures/functions.
+
+Use this query:
+
+```
+select run_id, sql_caller, run_duration from m.t_sql_proc_fn_logs order by id_sql_proc_fn_log desc limit 10;
+```
+
+Output:
+
+```
+"ev_api_get_regs_by_dol_veh_id-20250327-002301764"	"m.fn_get_regs_by_dol_veh_id"	"00:00:00.498845"
+"ev_api_get_regs_by_dol_veh_id-20250327-002300170"	"m.fn_get_regs_by_dol_veh_id"	"00:00:00.605369"
+"ev_api_get_regs_by_dol_veh_id-20250327-002259574"	"m.fn_get_regs_by_dol_veh_id"	"00:00:00.495647"
+"ev_api_get_census_t_id-20250327-002258853"	"m.fn_get_census_t_id"	"00:00:00.001421"
+"ev_api_get_census_t_id-20250327-002258853"	"m.fn_get_county_id_for_state"	"00:00:00.002525"
+"ev_api_get_census_t_id-20250327-002258853"	"m.fn_get_state_id"	"00:00:00.086319"
+"ev_api_get_reg_loc_id-20250327-002257941"	"m.fn_get_reg_loc_id"	"00:00:00.001765"
+"ev_api_get_reg_loc_id-20250327-002257941"	"m.fn_get_county_id_for_state"	"00:00:00.097951"
+"ev_api_get_reg_loc_id-20250327-002257941"	"m.fn_get_state_id"	"00:00:00.001346"
+"ev_api_get_county_id-20250327-002257655"	"m.fn_get_county_id_for_state"	"00:00:00.001478"
+```
+
+Please see there is a correlation using route_id in the first column in telemetry log and first column in SQL output.
+
+- **Logging:**
+Sufficient logging has been provided at all levels from TRACE TO INFO. Common and easy to troubleshoot formatting configured which makes it easy to correlate logs from multiple folders to be able get a wholistic view.
+
+```
+(base) /tmp/ev_apis_logs % ls -ltr
+total 0
+drwxr-xr-x  3 root  wheel  96 Mar 26 14:37 Debug
+drwxr-xr-x  3 root  wheel  96 Mar 26 14:37 Info
+drwxr-xr-x  3 root  wheel  96 Mar 26 14:37 Warning
+drwxr-xr-x  3 root  wheel  96 Mar 26 14:37 Error
+
+(base) % cd Info; ls -ltr
+total 8
+-rw-r--r--  1 root  wheel  1506 Mar 26 14:40 ev_apis_logs.info
+
+(base) % tail -10 ev_apis_logs.info
+[2025-03-26 14:38:27,076]|INFO|ev_reg_read_apis.py|get_regs_by_dol_veh_id|Line: 470|ev_api_get_regs_by_dol_veh_id-20250326-143827073|Get request for registrations by dol_veh_id
+[2025-03-26 14:40:00,485]|INFO|ev_reg_read_apis.py|get_regs_by_dol_veh_id|Line: 470|ev_api_get_regs_by_dol_veh_id-20250326-144000485|Get request for registrations by dol_veh_id
+[2025-03-26 14:40:00,663]|INFO|db_helper.py|get_db_conn|Line: 50|ev_api_get_regs_by_dol_veh_id-20250326-144000485|New DB connection is created
+[2025-03-26 14:40:00,664]|INFO|db_helper.py|get_db_cursor|Line: 62|ev_api_get_regs_by_dol_veh_id-20250326-144000485|New DB cursor is created
+[2025-03-26 14:40:00,680]|INFO|db_helper.py|get_db_conn|Line: 50|ev_api_get_regs_by_dol_veh_id-20250326-144000485|New DB connection is created
+[2025-03-26 14:40:00,680]|INFO|db_helper.py|get_db_cursor|Line: 62|ev_api_get_regs_by_dol_veh_id-20250326-144000485|New DB cursor is created
+[2025-03-26 14:40:00,680]|INFO|db_helper.py|execute_select|Line: 75|ev_api_get_regs_by_dol_veh_id-20250326-144000485|Executing query
+[2025-03-26 14:40:16,261]|INFO|db_helper.py|execute_select|Line: 78|ev_api_get_regs_by_dol_veh_id-20250326-144000485|Done executing query
+[2025-03-26 14:40:16,268]|INFO|db_helper.py|close_db_conn_cur|Line: 110|ev_api_get_regs_by_dol_veh_id-20250326-144000485|Closed DB connection and cursor
+[2025-03-26 14:40:16,270]|INFO|general_helper.py|log_api_completion_time|Line: 27|ev_api_get_regs_by_dol_veh_id-20250326-144000485|api_duration: 0:00:15.785257
+
+```
 
 # Improvements which can be done
 
@@ -492,5 +609,7 @@ https://github.com/techoboa/ev-reg-apis/tree/main/test_results
 5. Optional: Services can be clubbed based on domains if business needs it. Like one each for mangaing services for city, county, censut tract etc. Currently, they are arranged as two categories Create/Update/Delete and Read.
 6. Only a few APIs are commented due to time contraints as the pattern is same for all.
 7. Load Balancers/Scalability
+8. Connection poolling
+9. Queueing for telemetry.
 
 
