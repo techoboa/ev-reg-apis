@@ -204,6 +204,70 @@ CSV HEADER;
 Post this on time step, all the data is normalized into the tables and ready for the APIs to be consumed and edited.
 
 ### APIs
+ 
+Listing all services here. A few are unimplemented due to time constraints. Though the database has the required functions in place. Also, the implementation pattern would be exactly same as the ones implemented. In addition, these features must be priority 2, I guess.
+
+Please see acceptable data format for each in the test client submitted with the code. Here: [Test Client and Data Format](https://github.com/techoboa/ev-reg-apis/blob/main/README.md#command-line-clients)
+
+
+**Get APIs**
+
+The GET file has the following services.
+```
+IMPLEMENTED
+# @app.route("/", methods=['GET'])
+# @app.route("/get_state_id", methods=['GET'])
+# @app.route("/get_cavf_id", methods=['GET'])
+# @app.route("/get_ev_type_id", methods=['GET'])
+# @app.route("/get_model_id", methods=['GET'])
+# @app.route("/get_county_id", methods=['GET'])
+# @app.route("/get_reg_loc_id", methods=['GET'])
+# @app.route("/get_census_t_id", methods=['GET'])
+# @app.route("/get_regs_by_vin", methods=['GET'])
+# @app.route("/get_regs_by_dol_veh_id", methods=['GET'])
+# @app.route("/get_all_models", methods=['GET'])
+# @app.route("/get_all_ev_types", methods=['GET'])
+# @app.route("/get_all_cavf", methods=['GET'])
+# @app.route("/get_all_states", methods=['GET'])
+# @app.route("/get_all_regs", methods=['GET'])
+
+NOT IMPLEMENTED DUE TO TIME CONSTRAINTS. IMPLEMENTATION PATTERN WOULD BE EXACTLY SAME AS THE ONES IMPLEMENTED.
+
+# @app.route("/get_all_counties", methods=['GET'])
+# @app.route("/get_all_cities", methods=['GET'])
+# @app.route("/get_all_zips", methods=['GET'])
+```
+**CUD APIs:**
+
+The CUD file has the following services.
+```
+IMPLEMENTED
+# @app.route("/create_state", methods=['POST'])
+# @app.route("/create_county", methods=['POST'])
+# @app.route("/create_census_t", methods=['POST'])
+# @app.route("/create_reg_loc", methods=['POST'])
+# @app.route("/create_cavf", methods=['POST'])
+# @app.route("/create_ev_type", methods=['POST'])
+# @app.route("/create_model", methods=['POST'])
+# @app.route("/create_update_registration/<action>", methods=['POST', 'PUT'])
+# @app.route("/delete_registration_by_dol_veh_id", methods=['DELETE'])
+# @app.route("/delete_state", methods=['DELETE'])
+
+NOT IMPLEMENTED DUE TO TIME CONSTRAINTS. IMPLEMENTATION PATTERN WOULD BE EXACTLY SAME AS THE ONES IMPLEMENTED.
+# @app.route("/update_model", methods=['PUT'])
+# @app.route("/update_ev_type", methods=['PUT'])
+# @app.route("/update_cavf", methods=['PUT'])
+# @app.route("/update_county_state", methods=['PUT'])
+# @app.route("/update_reg_loc", methods=['PUT'])
+# @app.route("/update_census_t", methods=['PUT'])
+# @app.route("/delete_reg_loc", methods=['DELETE'])
+# @app.route("/delete_census_t", methods=['DELETE'])
+# @app.route("/delete_county", methods=['DELETE'])
+# @app.route("/delete_cavf", methods=['DELETE'])
+# @app.route("/delete_ev_type", methods=['DELETE'])
+# @app.route("/delete_model", methods=['DELETE'])
+```
+
 #### Deploying APIs
 
 ## On Laptop/VM:
@@ -388,7 +452,32 @@ http://127.0.0.1:59825 ## Use this URL to connect from laptop
 
 # Command Line Clients
 
+Following command line clients were used for testing GET and CUD APIs. These files also have the required data formats to call each API.
+
+```
+https://github.com/techoboa/ev-reg-apis/blob/main/client_command_line/test_client_get_ev_api_cmd.sh
+https://github.com/techoboa/ev-reg-apis/blob/main/client_command_line/test_client_cud_ev_api_cmd.sh
+```
+
+Run like this by passing API host for get and cud respectively. GET one, only need one. CUD one, needs both.
+```
+./test_client_get_ev_api_cmd.sh "http://127.0.0.1:59825"; cat /tmp/ev_api_cud_test_out.txt 
+./test_client_cud_ev_api_cmd.sh "http://127.0.0.1:59825" "http://127.0.0.1:61991"; cat /tmp/ev_api_cud_test_out.txt
+```
+
+
 # Test cases and results
+The test results are stored here:
+
+```
+
+https://github.com/techoboa/ev-reg-apis/blob/main/client_command_line/test_client_get_ev_api_cmd.sh
+https://github.com/techoboa/ev-reg-apis/blob/main/client_command_line/test_client_cud_ev_api_cmd.sh
+
+
+https://github.com/techoboa/ev-reg-apis/tree/main/test_results
+
+```
 
 # Updating Records for EV Model and Make (Tesla Model Y in this example)
 
