@@ -37,6 +37,9 @@ The database is normalized into various tables. Here are some considerations. (P
 8. DOL Vehicle id is unique. Seems like registration id. This can be considered primary key in the main Registraiton tables. VIN number repeats and each repetition has unique DOL Vehicle id.
 9. The main Registraiton tables holds records like MSRP, GPS location etc. and joins the tables from #1 to #8 above to finally make the form. The following JOIN explains this all.
 
+
+[![alt text]](https://github.com/techoboa/ev-reg-apis/blob/main/pics/ERD_EV_DB.png)
+
 ```
 select			
 	ev.vin, 
