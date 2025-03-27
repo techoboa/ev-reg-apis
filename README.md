@@ -102,7 +102,26 @@ https://github.com/techoboa/ev-reg-apis/blob/main/postgres/sql/ev_api_data_layer
 
 
 #### Bulk Data Load Process
-- 
+
+1. First load the downloaded CSV into the table m.t_ev using either PSQL or PGADMIN (Import/Export Data feature). For PSQL, first take the csv into the pod, and then run this command -
+
+COPY table_name [(column_list)]
+FROM 'file_name| file_path' 
+CSV HEADER;
+
+3. Call the following procedures from psql/pgadmin in order to load data from m.t_ev to other tables which are normalized. Unique Ids are generated on each row in the normalized tables.
+
+**- call m.p_prep_bulk_models();** -- This one inserts data into the car model table
+**- call m.p_prep_bulk_states();** -- This one inserts data into the states table
+**- call m.p_prep_bulk_counties();** -- This one inserts data into the county table. Note that, State + County is a unique combination as same county can be in two states. State is a Foriegn Key here.
+**- call m.p_prep_bulk_census_t();** -- This one inserts data into the census table. County id is a Foriegn Key here.
+**- call m.p_prep_bulk_reg_loc();** -- This one inserts data into the reg_loc (registration location) table. County id is a Foriegn Key here. Table has city and zip.
+**- call m.p_prep_bulk_ev_type();** -- This one inserts data into the ev type table
+**- call m.p_prep_bulk_cavf();** -- This one inserts data into the cavf table
+**- call m.p_prep_ev_regs();** -- This one JOINS all the above tables and inserts final records in the m.t_ev_regs table. This can take long to complete. Took me 8 mins as there are JOINS on various tables and 250K rows. Depending on the system performance, it can take longer or broken connection. In that case, process records in Bulk.
+
+
+Post this on time step, all the data is normalized into the tables and ready for the APIs to be consumed and edited.
 
 ### APIs
 #### Deploying APIs
