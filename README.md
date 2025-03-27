@@ -7,8 +7,23 @@ Creating CRUD APIs to be able to for EV registration related operations.
 - **Realtime Telemetry:** Since these are operations are not too frequent, batch posting of telemetry every min to the telemetry tools should be fine instead of real time posting of data.
 
 # Architecture
-Solution can be run in etc.
-Block diagram and explaination
+
+## **Runtime environment:** 
+
+The solution can be run in both local laptop/VM or in Kubernetes/Minikube. I used minikube on my laptop to deploy due to cost contraints for 2 weeks on Kubernetes on any public cloud. Minikube is free and works 90% same as any public cloud hosted Kubernetes cluster.
+
+**Architecture explaination:**
+
+1. Relational features of Postgres are used as normalized data with better suit the requirement here.
+2. One time data load ~250K records into database. Later normalized and transferred to different tables using stored procedures. This is one time activity and will take much longer if done via front end APIs. Post this on time step, all the data is normalized into the tables and ready for the APIs to be consumed and edited.
+3. Instead of prepared statements, I have used postgres functions for straight forwards operations (create/update/view/delete) which do not require business rule coordination. Benefits: Faster execution as the stored procedures are pre-compiled.
+4. Though to demonstrate the usability of the prepared statements, I have used it in a few delete/create APIs.
+5. The APIs can be grouped into two ways. First based on the business tribe. Example: Location can be one tribe, Census can be other. I could not do it due to time constraints and grouped them only into two parts - read (get) and create/update/delete (cud). Get APIs are standalone but CUD APIs need to consult with GET APIs for pre-checks before registration creation. For example, before creating/updating a registration, we need to make sure base data like city, state, census tract, ev type, car model etc. exist. The CUD APIs call GET APIs for this.
+6. CUD and GET APIs run in different pods and use Kubernetes Cluster IP to communicate.
+7. Created "Get All" APIs as well (example: getAllEVTypes, getAllModels etc.) to help create a UI as frontend.
+**8. Summary:** Database (in Kubernetes) holds normalized data after one time data load, APIs (in Kubernetes) talk to the database and with each other.
+   
+Please see following sections for other details like logging, telemetry, updating a certain type of models etc.
 Database design
 Talk about design decisions
 
