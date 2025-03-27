@@ -19,73 +19,13 @@ In any scenario, you need the following minimally to run the program:
 - Postgres database for relational data schemas
 - Python 3.8+ for APIs
 - OS and Python dependencies. I used Debian container to run this. Please modity to brew or yum based on the system being used.
-  Install the following OS and Python dependencies before you can run the code. This should be done in the Container or local system/VM running the APIs. Please remove the ones from the list which are already installed.
+  Install the following OS and Python dependencies before you can run the code. This should be done in the Container or local system/VM running the APIs. Please remove the ones from the list which are already installed. They are mentioned here: https://github.com/techoboa/ev-reg-apis/blob/main/install/install.sh
 
-
-  OS Dependecies and utilities. Based on Debian. 
-  **Repo update**
+I ran Postgres in a container and also deployed APIs in containers. In that regards, you need:
+- Kubernetes cluster/Minikube on laptop
+- Container registry of your choice. Could be docker hub or a local running container registry (on VM or in Docker). I am considering setting up Kubernetes cluster to be able to push/pull images from the registry of your choice, to be out of requirement. Assuming thats setup already.
+  Running docker container registry in docker:  https://www.paulsblog.dev/how-to-install-a-private-docker-container-registry-in-kubernetes/
   
-apt update
-
-apt -y upgrade
-
-
-    **pre req for Python postgres library**
-apt-get -y install procps
-
-
-
-apt-get install libpq5 
-
-
-apt-get install libssl-dev
-
-
-apt-get install libpq-dev
-
-
-    **Helpful troublshooting utilities**
-apt -y install curl
-
-
-apt -y install net-tools    
-
-
-apt-get install netcat-traditional
-
-
-apt-get -y install vim
-
-
-
-**Python API Dependecies**
-
-pip3 install flask
-
-
-pip3 install fastapi
-
-
-pip3 install uvicorn
-
-
-pip3 install pytest
-
-
-pip3 install httpx
-
-
-pip3 install psycopg2-binary
-
-
-pip3 install autopylogger
-
-
-pip3 install requests
-
-
-    
-
 
 # How to deploy
 
