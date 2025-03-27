@@ -101,12 +101,13 @@ I ran Postgres in a container and also deployed APIs in containers. In that rega
 
 ### Minikube
 
+```
 brew uninstall minikube
 
 brew install minikube
 
 minikube start
-
+```
 
 ### Database
 Deploy postgres in containers using the following procedure. Followed this tutorial: https://medium.com/@hijessicahsu/deploy-postgres-on-minikube-5cd8f9ffc9c
@@ -114,35 +115,37 @@ Deploy postgres in containers using the following procedure. Followed this tutor
 #### Creating Database
 
 **- Install helm and add bitnami helm repo for postgres**
-
+```
 brew install helm
 
 helm repo add bitnami https://charts.bitnami.com/bitnami
+```
 
 **- Create Persistent volume and claim for the database **using kubectl apply -f on the following two files in order:
-  
+  ```
 https://github.com/techoboa/ev-reg-apis/blob/main/postgres/kubernetes/postgres_pv.yml
 
 https://github.com/techoboa/ev-reg-apis/blob/main/postgres/kubernetes/postgres_pvc.yml
+```
 
 **- Download chart, untar the tgz, find the values.yaml, take a look, and update it, if needed.**
-
+```
 helm pull bitnami/postgresql
 
 tar -xvf postgresql-16.5.3.tgz
 
 helm install postgres bitnami/postgresql -f _Chart_Location_/postgresql/values.yaml
-
+```
 **- Post Install Steps:**
 
 1. PostgreSQL can be accessed via port 5432 on the following DNS names from within your cluster:
-
+```
     postgres-postgresql.default.svc.cluster.local - Read/Write connection
-
+```
 2. To get the password for "postgres" run:
-
+```
     export POSTGRES_PASSWORD=$(kubectl get secret --namespace default postgres-postgresql -o jsonpath="{.data.postgres-password}" | base64 -d)
-
+```
 3. Test a client connection
 
 To connect to your database run the following command:
@@ -153,10 +156,10 @@ To connect to your database run the following command:
     > NOTE: If you access the container using bash, make sure that you execute "/opt/bitnami/scripts/postgresql/entrypoint.sh /bin/bash" in order to avoid the error "psql: local user with ID 1001} does not exist"
 
 4. To connect to your database from outside the cluster using pgadmin or psql, execute the following commands. This step is necessary specifically if working with Minikube. Its also added here: https://github.com/techoboa/ev-reg-apis/blob/main/containers/minikube_tunnel.sh . Alternately create a new NodePort Service and use Minikube tunneling as done in the API side (explained later)
-
+```
     kubectl port-forward --namespace default svc/postgres-postgresql 5432:5432 &
     PGPASSWORD="$POSTGRES_PASSWORD" psql --host 127.0.0.1 -U postgres -d postgres -p 5432
-
+```
 #### Create schema:
 
 The provided recordset has ~250K records in total. It will take a lot of time to insert them one at a time in a normalized relational database using Front end APIs. Bulk load should be better choice here as its a one time load. I followed the following steps:
@@ -171,13 +174,16 @@ https://github.com/techoboa/ev-reg-apis/blob/main/postgres/sql/ev_api_data_layer
 #### Bulk Data Load Process
 
 1. First load the downloaded CSV into the table m.t_ev using either PSQL or PGADMIN (Import/Export Data feature). For PSQL, first take the csv into the pod, and then run this command -
-
+2. 
+```
 COPY table_name [(column_list)]
 FROM 'file_name| file_path' 
 CSV HEADER;
+```
 
 3. Call the following procedures from psql/pgadmin in order to load data from m.t_ev to other tables which are normalized. Unique Ids are generated on each row in the normalized tables.
 
+```
 **- call m.p_prep_bulk_models();** -- This one inserts data into the car model table
 
 **- call m.p_prep_bulk_states();** -- This one inserts data into the states table
@@ -193,7 +199,7 @@ CSV HEADER;
 **- call m.p_prep_bulk_cavf();** -- This one inserts data into the cavf table
 
 **- call m.p_prep_ev_regs();** -- This one JOINS all the above tables and inserts final records in the m.t_ev_regs table. This can take long to complete. Took me 8 mins as there are JOINS on various tables and 250K rows. Depending on the system performance, it can take longer or broken connection. In that case, process records in Bulk.
-
+```
 
 Post this on time step, all the data is normalized into the tables and ready for the APIs to be consumed and edited.
 
@@ -205,8 +211,10 @@ If you have a local postgres database on laptop, import the SQL script in the re
 
 For API services, change the database details in the db.properties file and just run the two services file using:
 
+```
 - All get APIs: python3 ev_reg_read_apis.py
 - All CUD APIs: python3 ev_reg_create_update_delete_apis.py
+```
 
 The log and telemetry files are created by default in /tmp. Its hardcoded.
 
@@ -222,6 +230,8 @@ The log and telemetry files are created by default in /tmp. Its hardcoded.
 cp -R app/*.py util/*.py config/*.properties ./containers/
 
 **2. Confuguring DB Connection:** Make changes to the db.properties file as follows
+
+```
 (base) containers % cat db.properties
 [db]
 db_host=[db host]
@@ -232,6 +242,7 @@ db_user_key=[user]
 db_passwd_key=[password]
 db_retries_limit=50
 db_retries_interval=10
+```
 
 db_host is ClusterIP or DNS name like "postgres-postgresql.default.svc.cluster.local", if running in Kubernetes.
 
@@ -246,10 +257,13 @@ I have made a couple of docker build scripts (One for get APIs and second for CU
 
 Execute both like this
 
+```
 ./DockerBuild_get.sh 1
 ./DockerBuild_cud.sh 1
+```
 
-(base) anuragshrivastava@Anurags-MacBook-Pro containers % ./DockerBuild_get.sh 6
+```
+(base) containers % ./DockerBuild_get.sh 6
 [+] Building 53.2s (10/10) FINISHED                                                                                                docker:desktop-linux
  => [internal] load build definition from Dockerfile_ev_apis_get                                                                                   0.1s
  => => transferring dockerfile: 1.54kB                                                                                                             0.0s
@@ -276,10 +290,10 @@ d9f9648a0ca7: Pushed
 01183e0d6e03: Layer already exists 
 054df1200f3e: Layer already exists 
 v6: digest: sha256:81da52e671a339ac9fb90540391d2df4e9cc74b785675e6c3bef45c03cf30e12 size: 1998
-(base) anuragshrivastava@Anurags-MacBook-Pro containers % 
-
-
-(base) anuragshrivastava@Anurags-MacBook-Pro containers % ./DockerBuild_cud.sh 4
+(base) containers % 
+```
+```
+(base) containers % ./DockerBuild_cud.sh 4
 [+] Building 71.4s (11/11) FINISHED                                                                                                docker:desktop-linux
  => [internal] load build definition from Dockerfile_ev_apis_cud                                                                                   0.1s
  => => transferring dockerfile: 1.72kB                                                                                                             0.0s
@@ -305,8 +319,8 @@ v6: digest: sha256:81da52e671a339ac9fb90540391d2df4e9cc74b785675e6c3bef45c03cf30
 01183e0d6e03: Layer already exists 
 054df1200f3e: Layer already exists 
 v4: digest: sha256:fcecf7f2a7da8dc80f1d5701904519a214b5d6dcfc9bd7bf0646075331d28e8f size: 1998
-(base) anuragshrivastava@Anurags-MacBook-Pro containers % 
-
+(base) containers % 
+```
 
 
 
