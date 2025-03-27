@@ -324,23 +324,24 @@ v4: digest: sha256:fcecf7f2a7da8dc80f1d5701904519a214b5d6dcfc9bd7bf0646075331d28
 
 
 
-Edit the two kubernetes yaml files for the image location and version in the deployment.
+**4. Modify kubernetes yamls: **
 
-      containers:
-      - image: anuragpppp/ev-app:v6
-        name: ev-get-app
+Edit BOTH the kubernetes yaml files for the image location and version in the deployment.
 
+```
+https://github.com/techoboa/ev-reg-apis/blob/main/containers/ev_cud_apis_k8s.yaml
+https://github.com/techoboa/ev-reg-apis/blob/main/containers/ev_get_apis_k8s.yaml
+```
 
-
-￼
-
-      containers:
-      - image: anuragpppp/ev-app-cud:v4
+```
+       containers:
+      - image: [image]:[version]
         name: ev-cud-app
+```
 
-￼
+**5. Apply the kubectl files** to create resources in the Minikube kubernetes cluster. 
 
-Apply the kubectl files to create resources in the Minikube kubernetes cluster. 
+```
 (base) anuragshrivastava@Anurags-MacBook-Pro containers % kubectl apply -f ev_get_apis_k8s.yaml
 deployment.apps/ev-get-app created
 service/ev-get-app unchanged
@@ -354,27 +355,31 @@ service/ev-cud-app unchanged
 ingress.networking.k8s.io/ev-cud-app unchanged
 service/ev-cud-app-service-nodeport unchanged
 (base) anuragshrivastava@Anurags-MacBook-Pro containers % 
+```
 
+**6. Validate:** 
 
 One pods for each service will show as running:
 
+```
 (base) anuragshrivastava@Anurags-MacBook-Pro containers % kubectl get pods
 NAME                          READY   STATUS    RESTARTS   AGE
 ev-cud-app-6697f8598d-g5cbt   1/1     Running   0          5m33s
 ev-get-app-b77455b54-nl62v    1/1     Running   0          40m
 postgres-postgresql-0         1/1     Running   2          2d17h
 (base) anuragshrivastava@Anurags-MacBook-Pro containers % 
+```
 
-Start tunnel to the node port services
+7. Start minikube tunnel to the node port services, if working on minikube. Call services at these URLs from your local machine. If you need internet based access to these, then please create Load Balancer service instead of the Node Port.
 
+```
 minikube service ev-cud-app-service-nodeport --url
-http://127.0.0.1:61991
+http://127.0.0.1:61991 ## Use this URL to connect from laptop
 
 minikube service ev-get-app-service-nodeport --url
-http://127.0.0.1:59825
+http://127.0.0.1:59825 ## Use this URL to connect from laptop
+```
 
-
-Call services at these URLs from your local machine. If you need internet based access to these, then please create Load Balancer service instead of the Node Port.
 
 ### How to test and use
 
