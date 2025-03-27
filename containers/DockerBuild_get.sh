@@ -10,7 +10,7 @@
 
 version=$1
 docker build -t ev-app . -f Dockerfile_ev_apis_get
-image=anuragpppp/ev-app:v$version
+image=[registry_user_name]/ev-app:v$version
 docker tag ev-app:latest $image
 docker push $image
  
