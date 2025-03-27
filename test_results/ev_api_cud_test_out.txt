@@ -1,0 +1,144 @@
+
+##############################  START: Testing EV create/update/delete API services ##############################
+     ++++++++++++++++++++++++  START: Testing Creating a new state: AI  ++++++++++++++++++++++++     
+{
+  "msg": "New state registered"
+}
+     ++++++++++++++++++++++++  START: Testing Get Newly Created State: AI ++++++++++++++++++++++++     
+{
+  "state_id": "77"
+}
+     ++++++++++++++++++++++++  START: Testing Recreating a new state: AI  ++++++++++++++++++++++++     
+{
+  "msg": "The State AI already exists. Cannot have duplicate states in the system."
+}
+     ++++++++++++++++++++++++  START: Testing Deleting the new state: AI  ++++++++++++++++++++++++     
+{
+  "msg": "Deleted state: AI"
+}
+     ++++++++++++++++++++++++  START: Testing Just Deleted State: AI ++++++++++++++++++++++++     
+{
+  "state_id": "None"
+}
+
+     ++++++++++++++++++++++++  START: Testing Creating a new cavf: CAVF10  ++++++++++++++++++++++++     
+{
+  "msg": "The CAVF: CAVF10 already exists. Cannot have duplicate states in the system."
+}
+     ++++++++++++++++++++++++  START: Testing Get Newly Created cavf: CAVF10 ++++++++++++++++++++++++     
+{
+  "cavf_id": "13"
+}
+     ++++++++++++++++++++++++  START: Testing Recreating a new cavf: CAVF10  ++++++++++++++++++++++++     
+{
+  "msg": "The CAVF: CAVF10 already exists. Cannot have duplicate states in the system."
+}
+     ++++++++++++++++++++++++  START: Testing Deleting the new cavf: CAVF10  ++++++++++++++++++++++++     
+{
+  "msg": "Unimplemented API. Implementation very similar to other APIs in the same class.. Assumption: All the foreign keys are already deleted."
+}
+
+     ++++++++++++++++++++++++  START: Testing Creating a new ev_type: ev_type10  ++++++++++++++++++++++++     
+{
+  "msg": "The EV Type: EV_TYPE10 already exists. Cannot have duplicate states in the system."
+}
+     ++++++++++++++++++++++++  START: Testing Get Newly Created ev_type: ev_type10 ++++++++++++++++++++++++     
+{
+  "ev_type_id": "7"
+}
+     ++++++++++++++++++++++++  START: Testing Recreating a new ev_type: ev_type10  ++++++++++++++++++++++++     
+{
+  "msg": "The EV Type: EV_TYPE10 already exists. Cannot have duplicate states in the system."
+}
+     ++++++++++++++++++++++++  START: Testing Deleting the new ev_type: ev_type10  ++++++++++++++++++++++++     
+{
+  "msg": "Unimplemented API. Implementation very similar to other APIs in the same class.. Assumption: All the foreign keys are already deleted."
+}
+     ++++++++++++++++++++++++  START: Testing Creating a new model  ++++++++++++++++++++++++     
+{
+  "msg": "The combination of model: MODEL1, make: ACURA, year: 2026 already exists. Cannot have duplicate states in the system."
+}
+     ++++++++++++++++++++++++  START: Testing Get Newly Created model ++++++++++++++++++++++++     
+{
+  "model_id": "598"
+}
+     ++++++++++++++++++++++++  START: Testing Recreating a new model  ++++++++++++++++++++++++     
+{
+  "msg": "The combination of model: MODEL1, make: ACURA, year: 2026 already exists. Cannot have duplicate states in the system."
+}
+     ++++++++++++++++++++++++  START: Testing Deleting the new model  ++++++++++++++++++++++++     
+{
+  "msg": "Unimplemented API. Implementation very similar to other APIs in the same class.. Assumption: All the foreign keys are already deleted."
+}
+
+     ++++++++++++++++++++++++  START: Testing Creating a new census_t  ++++++++++++++++++++++++     
+{
+  "msg": "The combination of State CA, census_t 20251123 and county PLACER already exists. Cannot have duplicate in the system."
+}
+     ++++++++++++++++++++++++  START: Testing Get Newly Created census_t ++++++++++++++++++++++++     
+{
+  "census_t_id": "2211"
+}
+     ++++++++++++++++++++++++  START: Testing Recreating a new census_t  ++++++++++++++++++++++++     
+{
+  "msg": "The combination of State CA, census_t 20251123 and county PLACER already exists. Cannot have duplicate in the system."
+}
+     ++++++++++++++++++++++++  START: Testing Deleting the new census_t  ++++++++++++++++++++++++     
+{
+  "msg": "Unimplemented API. Implementation very similar to other APIs in the same class.. Assumption: All the foreign keys are already deleted."
+}
+
+     ++++++++++++++++++++++++  START: Testing Creating a new reg_loc  ++++++++++++++++++++++++     
+{
+  "msg": "The combination of state: CA, county: Placer, city: Lincoln10 and zip: 95648 already exists. Cannot have duplicate in the system."
+}
+     ++++++++++++++++++++++++  START: Testing Get Newly Created reg_loc ++++++++++++++++++++++++     
+{
+  "reg_loc_id": "3771"
+}
+     ++++++++++++++++++++++++  START: Testing Recreating a new reg_loc  ++++++++++++++++++++++++     
+{
+  "msg": "The combination of state: CA, county: Placer, city: Lincoln10 and zip: 95648 already exists. Cannot have duplicate in the system."
+}
+     ++++++++++++++++++++++++  START: Testing Deleting the new reg_loc  ++++++++++++++++++++++++     
+{
+  "msg": "Unimplemented API. Implementation very similar to other APIs in the same class.. Assumption: All the foreign keys are already deleted."
+}
+
+     ++++++++++++++++++++++++  START: Testing Creating a new county  ++++++++++++++++++++++++     
+{
+  "msg": "The combination of State CA and county PLACERDD already exists. Returning and closing the program."
+}
+     ++++++++++++++++++++++++  START: Testing Get Newly Created county ++++++++++++++++++++++++     
+{
+  "county_id": "246"
+}
+     ++++++++++++++++++++++++  START: Testing Recreating a new county  ++++++++++++++++++++++++     
+{
+  "msg": "The combination of State CA and county PLACERDD already exists. Returning and closing the program."
+}
+     ++++++++++++++++++++++++  START: Testing Deleting the new county  ++++++++++++++++++++++++     
+{
+  "msg": "Unimplemented API. Implementation very similar to other APIs in the same class.. Assumption: All the foreign keys are already deleted."
+}
+
+     ++++++++++++++++++++++++  START: Testing Creating a new registration for DOL Vehicle Id: 111111112  ++++++++++++++++++++++++     
+{
+  "msg": "Created/Update registration for dol_veh_id = 111111112"
+}
+     ++++++++++++++++++++++++  START: Testing Getting the newly create registration details for DOL Vehicle Id: 111111112  ++++++++++++++++++++++++     
+[{"vin":"1C4RJYD67N","dol_veh_id":111111112,"city":"Othello","zip":99344,"st":"WA","county":"Grant","make":"JEEP","model":"GRAND CHEROKEE","m_year":2022,"ev_type":"Plug-in Hybrid Electric Vehicle (PHEV)","cavf":"Not eligible due to low battery range","ev_range":25,"msrp":100,"leg_dist":13,"veh_location_gps":"POINT (-119.1742 46.82616)","el_utility":"PUD NO 4 OF GRANT COUNTY","census_t":53025011401}]     ++++++++++++++++++++++++  START: Testing Recreating the registration for same DOL Vehicle Id: 111111112  ++++++++++++++++++++++++     
+{
+  "msg": "DOL registration already exist for 111111112"
+}
+     ++++++++++++++++++++++++  START: Testing Updating the registration for same DOL Vehicle Id: 111111112. Setting msrp to 10001 and ev_range to 30  ++++++++++++++++++++++++     
+{
+  "msg": "Created/Update registration for dol_veh_id = 111111112"
+}
+     ++++++++++++++++++++++++  START: Testing Getting the details for DOL Vehicle Id: 111111112 after the update  ++++++++++++++++++++++++     
+[{"vin":"1C4RJYD67N","dol_veh_id":111111112,"city":"Othello","zip":99344,"st":"WA","county":"Grant","make":"JEEP","model":"GRAND CHEROKEE","m_year":2022,"ev_type":"Plug-in Hybrid Electric Vehicle (PHEV)","cavf":"Not eligible due to low battery range","ev_range":30,"msrp":10001,"leg_dist":13,"veh_location_gps":"POINT (-119.1742 46.82616)","el_utility":"PUD NO 4 OF GRANT COUNTY","census_t":53025011401}]     ++++++++++++++++++++++++  START: Testing Deleting the details for DOL Vehicle Id: 111111112  ++++++++++++++++++++++++     
+{
+  "msg": "Deleted registration for dol_veh_id = 111111112"
+}
+     ++++++++++++++++++++++++  START: Testing Getting the details for DOL Vehicle Id: 111111112 after delete  ++++++++++++++++++++++++     
+None##############################  END: Testing EV read API services ##############################

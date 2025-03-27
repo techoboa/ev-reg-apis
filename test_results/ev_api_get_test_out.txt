@@ -1,0 +1,160 @@
+
+##############################  START: Testing EV read API services ##############################
+     ++++++++++++++++++++++++  START: Testing Get Valid State ++++++++++++++++++++++++     
+{
+  "state_id": "5"
+}
+     ++++++++++++++++++++++++  START: Testing Get Invalid State ++++++++++++++++++++++++     
+{
+  "state_id": "None"
+}
+     ++++++++++++++++++++++++  START: Testing Get Valid cavf ++++++++++++++++++++++++     
+{
+  "cavf_id": "1"
+}
+     ++++++++++++++++++++++++  START: Testing Get Invalid cavf ++++++++++++++++++++++++     
+{
+  "cavf_id": "0"
+}
+     ++++++++++++++++++++++++  START: Testing Get Valid ev_type ++++++++++++++++++++++++     
+{
+  "ev_type_id": "1"
+}
+     ++++++++++++++++++++++++  START: Testing Get Invalid ev_type ++++++++++++++++++++++++     
+{
+  "ev_type_id": "0"
+}
+     ++++++++++++++++++++++++  START: Testing Get Valid model ++++++++++++++++++++++++     
+{
+  "model_id": "1"
+}
+     ++++++++++++++++++++++++  START: Testing Get Invalid model ++++++++++++++++++++++++     
+{
+  "model_id": "0"
+}
+     ++++++++++++++++++++++++  START: Testing Get Valid county ++++++++++++++++++++++++     
+{
+  "county_id": "177"
+}
+     ++++++++++++++++++++++++  START: Testing Get Invalid county ++++++++++++++++++++++++     
+{
+  "county_id": "0",
+  "msg": "The state and county combination is not registered. Please register it first."
+}
+     ++++++++++++++++++++++++  START: Testing Get Valid Registry Location ++++++++++++++++++++++++     
+{
+  "reg_loc_id": "2968"
+}
+     ++++++++++++++++++++++++  START: Testing Get Invalid  Registry Location ++++++++++++++++++++++++     
+{
+  "msg": "The state, county, city and zip combination is not registered. Please register it first.",
+  "reg_loc_id": 0
+}
+     ++++++++++++++++++++++++  START: Testing Get Registration by Valid VIN Number ++++++++++++++++++++++++     
+[{"vin":"WA125BGF3S","dol_veh_id":274663252,"city":"Seattle","zip":98115,"st":"WA","county":"King","make":"AUDI","model":"SQ6","m_year":2025,"ev_type":"Battery Electric Vehicle (BEV)","cavf":"Eligibility unknown as battery range has not been researched","ev_range":0,"msrp":0,"leg_dist":46,"veh_location_gps":"POINT (-122.31676 47.68156)","el_utility":"CITY OF SEATTLE - (WA)|CITY OF TACOMA - (WA)","census_t":53033003800}]     ++++++++++++++++++++++++  START: Testing Get Registration by Invalid VIN Number ++++++++++++++++++++++++     
+None     ++++++++++++++++++++++++  START: Testing Get Registration by Valid DOL Vehicle Id ++++++++++++++++++++++++     
+[{"vin":"1C4RJYD67N","dol_veh_id":933575393,"city":"Othello","zip":99344,"st":"WA","county":"Grant","make":"JEEP","model":"GRAND CHEROKEE","m_year":2022,"ev_type":"Plug-in Hybrid Electric Vehicle (PHEV)","cavf":"Not eligible due to low battery range","ev_range":25,"msrp":100,"leg_dist":13,"veh_location_gps":"POINT (-119.1742 46.82616)","el_utility":"PUD NO 5 OF GRANT COUNTY","census_t":53025011401}]     ++++++++++++++++++++++++  START: Testing Get Registration by Invalid VIN Number ++++++++++++++++++++++++     
+None     ++++++++++++++++++++++++  START: Testing Get 5 registrations ++++++++++++++++++++++++     
+[{"vin":"KNDC34LA8R","dol_veh_id":272487505,"city":"Bainbridge Island","zip":98110,"st":"WA","county":"Kitsap","make":"KIA","model":"EV6","m_year":2024,"ev_type":"Battery Electric Vehicle (BEV)","cavf":"Eligibility unknown as battery range has not been researched","ev_range":0,"msrp":0,"leg_dist":23,"veh_location_gps":"POINT (-122.521 47.62728)","el_utility":"PUGET SOUND ENERGY INC","census_t":53035091002}, 
+ {"vin":"WVWKR7AU3K","dol_veh_id":240754678,"city":"Seattle","zip":98199,"st":"WA","county":"King","make":"VOLKSWAGEN","model":"E-GOLF","m_year":2019,"ev_type":"Battery Electric Vehicle (BEV)","cavf":"Clean Alternative Fuel Vehicle Eligible","ev_range":125,"msrp":0,"leg_dist":36,"veh_location_gps":"POINT (-122.40092 47.65908)","el_utility":"CITY OF SEATTLE - (WA)|CITY OF TACOMA - (WA)","census_t":53033005600}, 
+ {"vin":"KNDCC3LG7K","dol_veh_id":8747826,"city":"Port Townsend","zip":98368,"st":"WA","county":"Jefferson","make":"KIA","model":"NIRO","m_year":2019,"ev_type":"Battery Electric Vehicle (BEV)","cavf":"Clean Alternative Fuel Vehicle Eligible","ev_range":239,"msrp":0,"leg_dist":24,"veh_location_gps":"POINT (-122.77263 48.1212)","el_utility":"BONNEVILLE POWER ADMINISTRATION||PUGET SOUND ENERGY INC||PUD NO 1 OF JEFFERSON COUNTY","census_t":53031950501}, 
+ {"vin":"WA1E2AFY9M","dol_veh_id":258740331,"city":"Puyallup","zip":98372,"st":"WA","county":"Pierce","make":"AUDI","model":"Q5 E","m_year":2021,"ev_type":"Plug-in Hybrid Electric Vehicle (PHEV)","cavf":"Not eligible due to low battery range","ev_range":18,"msrp":0,"leg_dist":25,"veh_location_gps":"POINT (-122.28718 47.19047)","el_utility":"PUGET SOUND ENERGY INC||CITY OF TACOMA - (WA)","census_t":53053073406}, 
+ {"vin":"KNDCT3L14P","dol_veh_id":227522977,"city":"Seattle","zip":98115,"st":"WA","county":"King","make":"KIA","model":"NIRO","m_year":2023,"ev_type":"Battery Electric Vehicle (BEV)","cavf":"Eligibility unknown as battery range has not been researched","ev_range":0,"msrp":0,"leg_dist":46,"veh_location_gps":"POINT (-122.31676 47.68156)","el_utility":"CITY OF SEATTLE - (WA)|CITY OF TACOMA - (WA)","census_t":53033002200}, 
+ {"vin":"WBY43AW02R","dol_veh_id":274316759,"city":"Vancouver","zip":98660,"st":"WA","county":"Clark","make":"BMW","model":"I4","m_year":2024,"ev_type":"Battery Electric Vehicle (BEV)","cavf":"Eligibility unknown as battery range has not been researched","ev_range":0,"msrp":0,"leg_dist":49,"veh_location_gps":"POINT (-122.67156 45.63248)","el_utility":"BONNEVILLE POWER ADMINISTRATION||PUD NO 1 OF CLARK COUNTY - (WA)","census_t":53011042400}, 
+ {"vin":"KNDC34LA7R","dol_veh_id":257557128,"city":"Kingston","zip":98346,"st":"WA","county":"Kitsap","make":"KIA","model":"EV6","m_year":2024,"ev_type":"Battery Electric Vehicle (BEV)","cavf":"Eligibility unknown as battery range has not been researched","ev_range":0,"msrp":0,"leg_dist":23,"veh_location_gps":"POINT (-122.4977 47.79802)","el_utility":"PUGET SOUND ENERGY INC","census_t":53035090101}, 
+ {"vin":"WP0BC2Y14P","dol_veh_id":229407272,"city":"White Salmon","zip":98672,"st":"WA","county":"Klickitat","make":"PORSCHE","model":"TAYCAN","m_year":2023,"ev_type":"Battery Electric Vehicle (BEV)","cavf":"Eligibility unknown as battery range has not been researched","ev_range":0,"msrp":0,"leg_dist":14,"veh_location_gps":"POINT (-121.48704 45.72776)","el_utility":"BONNEVILLE POWER ADMINISTRATION||PUD NO 1 OF KLICKITAT COUNTY","census_t":53039950301}, 
+ {"vin":"WA1AAAGE1N","dol_veh_id":224006576,"city":"Medina","zip":98039,"st":"WA","county":"King","make":"AUDI","model":"E-TRON","m_year":2022,"ev_type":"Battery Electric Vehicle (BEV)","cavf":"Eligibility unknown as battery range has not been researched","ev_range":0,"msrp":0,"leg_dist":48,"veh_location_gps":"POINT (-122.23892 47.61613)","el_utility":"PUGET SOUND ENERGY INC||CITY OF TACOMA - (WA)","census_t":53033024200}, 
+ {"vin":"KNDC3DLC9R","dol_veh_id":264739345,"city":"Seattle","zip":98118,"st":"WA","county":"King","make":"KIA","model":"EV6","m_year":2024,"ev_type":"Battery Electric Vehicle (BEV)","cavf":"Eligibility unknown as battery range has not been researched","ev_range":0,"msrp":0,"leg_dist":37,"veh_location_gps":"POINT (-122.2668 47.55115)","el_utility":"CITY OF SEATTLE - (WA)|CITY OF TACOMA - (WA)","census_t":53033010302}, 
+ {"vin":"WA1E2AFY7R","dol_veh_id":269418446,"city":"Bonney Lake","zip":98391,"st":"WA","county":"Pierce","make":"AUDI","model":"Q5 E","m_year":2024,"ev_type":"Plug-in Hybrid Electric Vehicle (PHEV)","cavf":"Not eligible due to low battery range","ev_range":23,"msrp":0,"leg_dist":31,"veh_location_gps":"POINT (-122.17144 47.19175)","el_utility":"PUGET SOUND ENERGY INC||CITY OF TACOMA - (WA)","census_t":53053070208}, 
+ {"vin":"KNDJX3AE9H","dol_veh_id":237046323,"city":"Shoreline","zip":98155,"st":"WA","county":"King","make":"KIA","model":"SOUL EV","m_year":2017,"ev_type":"Battery Electric Vehicle (BEV)","cavf":"Clean Alternative Fuel Vehicle Eligible","ev_range":93,"msrp":32250,"leg_dist":32,"veh_location_gps":"POINT (-122.3175 47.75781)","el_utility":"CITY OF SEATTLE - (WA)|CITY OF TACOMA - (WA)","census_t":53033020600}, 
+ {"vin":"KNDCT3L14R","dol_veh_id":271539789,"city":"Seattle","zip":98103,"st":"WA","county":"King","make":"KIA","model":"NIRO","m_year":2024,"ev_type":"Battery Electric Vehicle (BEV)","cavf":"Eligibility unknown as battery range has not been researched","ev_range":0,"msrp":0,"leg_dist":43,"veh_location_gps":"POINT (-122.35436 47.67596)","el_utility":"CITY OF SEATTLE - (WA)|CITY OF TACOMA - (WA)","census_t":53033005401}, 
+ {"vin":"WA1E2AFY1L","dol_veh_id":267124028,"city":"Mercer Island","zip":98040,"st":"WA","county":"King","make":"AUDI","model":"Q5 E","m_year":2020,"ev_type":"Plug-in Hybrid Electric Vehicle (PHEV)","cavf":"Not eligible due to low battery range","ev_range":20,"msrp":0,"leg_dist":41,"veh_location_gps":"POINT (-122.21238 47.57816)","el_utility":"PUGET SOUND ENERGY INC||CITY OF TACOMA - (WA)","census_t":53033024301}, 
+ {"vin":"WBY43HD00S","dol_veh_id":276117040,"city":"Yarrow Point","zip":98004,"st":"WA","county":"King","make":"BMW","model":"I4","m_year":2025,"ev_type":"Battery Electric Vehicle (BEV)","cavf":"Eligibility unknown as battery range has not been researched","ev_range":0,"msrp":0,"leg_dist":48,"veh_location_gps":"POINT (-122.1872 47.61001)","el_utility":"PUGET SOUND ENERGY INC||CITY OF TACOMA - (WA)","census_t":53033024100}]
+     ++++++++++++++++++++++++  START: Testing Get All States ++++++++++++++++++++++++     
+[{"st":"AE","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"AK","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"AL","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"AR","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"AZ","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"BC","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"CA","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"CO","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"CT","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"DC","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"DE","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"FL","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"GA","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"HI","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"ID","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"IL","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"IN","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"KS","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"KY","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"LA","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"MA","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"MD","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"ME","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"MI","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"MN","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"MO","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"MS","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"NC","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"NE","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"NH","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"NJ","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"NM","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"NS","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"NV","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"NY","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"OH","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"OK","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"OR","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"PA","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"RI","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"SC","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"TN","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"TX","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"UT","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"VA","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"WA","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"WI","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"WY","st_create_time":"2025-03-21T08:24:47.684713","st_update_time":"2025-03-21T08:24:47.684713"}, 
+ {"st":"CZ","st_create_time":"2025-03-24T00:35:27.178429","st_update_time":"2025-03-24T00:35:27.178429"}, 
+ {"st":"Cz","st_create_time":"2025-03-24T00:35:42.547314","st_update_time":"2025-03-24T00:35:42.547314"}, 
+ {"st":"CY","st_create_time":"2025-03-24T00:35:53.705143","st_update_time":"2025-03-24T00:35:53.705143"}, 
+ {"st":"CX","st_create_time":"2025-03-24T00:37:31.437591","st_update_time":"2025-03-24T00:37:31.437591"}, 
+ {"st":"CB","st_create_time":"2025-03-24T00:38:24.214072","st_update_time":"2025-03-24T00:38:24.214072"}, 
+ {"st":"CC","st_create_time":"2025-03-24T00:39:25.446287","st_update_time":"2025-03-24T00:39:25.446287"}, 
+ {"st":"CD","st_create_time":"2025-03-24T00:39:51.412942","st_update_time":"2025-03-24T00:39:51.412942"}, 
+ {"st":"CE","st_create_time":"2025-03-24T00:40:35.87708","st_update_time":"2025-03-24T00:40:35.87708"}, 
+ {"st":"CF","st_create_time":"2025-03-24T04:21:13.152416","st_update_time":"2025-03-24T04:21:13.152416"}, 
+ {"st":"AN","st_create_time":"2025-03-25T18:54:06.177662","st_update_time":"2025-03-25T18:54:06.177662"}, 
+ {"st":"AM","st_create_time":"2025-03-25T19:04:07.672776","st_update_time":"2025-03-25T19:04:07.672776"}, 
+ {"st":"AO","st_create_time":"2025-03-25T19:28:59.989369","st_update_time":"2025-03-25T19:28:59.989369"}, 
+ {"st":"AP","st_create_time":"2025-03-25T19:42:00.627811","st_update_time":"2025-03-25T19:42:00.627811"}, 
+ {"st":"AQ","st_create_time":"2025-03-25T19:43:01.553826","st_update_time":"2025-03-25T19:43:01.553826"}, 
+ {"st":"AT","st_create_time":"2025-03-25T20:58:38.93022","st_update_time":"2025-03-25T20:58:38.93022"}, 
+ {"st":"AU","st_create_time":"2025-03-25T20:59:36.050601","st_update_time":"2025-03-25T20:59:36.050601"}, 
+ {"st":"AV","st_create_time":"2025-03-25T21:00:33.392995","st_update_time":"2025-03-25T21:00:33.392995"}]
+     ++++++++++++++++++++++++  START: Testing Get All Counties ++++++++++++++++++++++++     
+{"msg": "API to be implented. Output will be something similar as hitting http://127.0.0.1:5001/get_all_states"}     ++++++++++++++++++++++++  START: Testing Get All CAVF ++++++++++++++++++++++++     
+[{"cavf":"Clean Alternative Fuel Vehicle Eligible","cavf_create_time":"2025-03-21T09:49:59.618168","cavf_update_time":"2025-03-21T09:49:59.618168"}, 
+ {"cavf":"Eligibility unknown as battery range has not been researched","cavf_create_time":"2025-03-21T09:49:59.618168","cavf_update_time":"2025-03-21T09:49:59.618168"}, 
+ {"cavf":"Not eligible due to low battery range","cavf_create_time":"2025-03-21T09:49:59.618168","cavf_update_time":"2025-03-21T09:49:59.618168"}, 
+ {"cavf":"CLEAN ALTERNATIVE FUEL VEHICLE ELIGIBLE1","cavf_create_time":"2025-03-24T08:49:14.070598","cavf_update_time":"2025-03-24T08:49:14.070598"}, 
+ {"cavf":"NEW_CAVF","cavf_create_time":"2025-03-25T19:55:55.351214","cavf_update_time":"2025-03-25T19:55:55.351214"}, 
+ {"cavf":"NEW_CAVF1","cavf_create_time":"2025-03-25T19:57:58.724198","cavf_update_time":"2025-03-25T19:57:58.724198"}, 
+ {"cavf":"NEW_CAVF2","cavf_create_time":"2025-03-25T19:58:23.846746","cavf_update_time":"2025-03-25T19:58:23.846746"}, 
+ {"cavf":"NEW_CAVF3","cavf_create_time":"2025-03-25T19:59:25.232199","cavf_update_time":"2025-03-25T19:59:25.232199"}, 
+ {"cavf":"NEW_CAVF4","cavf_create_time":"2025-03-25T19:59:46.003898","cavf_update_time":"2025-03-25T19:59:46.003898"}, 
+ {"cavf":"NEW_CAVF5","cavf_create_time":"2025-03-25T21:23:14.434486","cavf_update_time":"2025-03-25T21:23:14.434486"}, 
+ {"cavf":"NEW_CAVF6","cavf_create_time":"2025-03-25T21:23:49.317176","cavf_update_time":"2025-03-25T21:23:49.317176"}, 
+ {"cavf":"NEW_CAVF7","cavf_create_time":"2025-03-25T21:25:02.132272","cavf_update_time":"2025-03-25T21:25:02.132272"}]
+     ++++++++++++++++++++++++  START: Testing Get All EV Types ++++++++++++++++++++++++     
+[{"ev_type":"Plug-in Hybrid Electric Vehicle (PHEV)","ev_type_create_time":"2025-03-21T09:38:27.871745","ev_type_update_time":"2025-03-21T09:38:27.871745"}, 
+ {"ev_type":"Battery Electric Vehicle (BEV)","ev_type_create_time":"2025-03-21T09:38:27.871745","ev_type_update_time":"2025-03-21T09:38:27.871745"}, 
+ {"ev_type":"BATTERY ELECTRIC VEHICLE (BEV)1","ev_type_create_time":"2025-03-24T08:36:53.867081","ev_type_update_time":"2025-03-24T08:36:53.867081"}, 
+ {"ev_type":"EV_TYPE1","ev_type_create_time":"2025-03-25T20:14:08.13427","ev_type_update_time":"2025-03-25T20:14:08.13427"}, 
+ {"ev_type":"EV_TYPE2","ev_type_create_time":"2025-03-25T21:26:17.105258","ev_type_update_time":"2025-03-25T21:26:17.105258"}, 
+ {"ev_type":"EV_TYPE3","ev_type_create_time":"2025-03-25T21:26:52.902144","ev_type_update_time":"2025-03-25T21:26:52.902144"}]
+##############################  END: Testing EV read API services ##############################
