@@ -36,6 +36,7 @@ The database is normalized into various tables. Here are some considerations. (P
 7. CAVF is one unique table with PK.
 8. DOL Vehicle id is unique. Seems like registration id. This can be considered primary key in the main Registraiton tables. VIN number repeats and each repetition has unique DOL Vehicle id.
 9. The main Registraiton tables holds records like MSRP, GPS location etc. and joins the tables from #1 to #8 above to finally make the form. The following ERD Diagram and the JOIN statement explains this all.
+10. Another table is created for looking at the performance of each Stored Procedure and Function. A unique run id is passed in the API and eventually to the DB to keep and end to end track of execution time.
 
 
 [ERD Diagram](https://github.com/techoboa/ev-reg-apis/blob/main/pics/ERD_EV_DB.png?raw=true)
@@ -215,6 +216,152 @@ The log and telemetry files are created by default in /tmp. Its hardcoded.
 
 ## APIs
 ### Deploying APIs
+
+**1. Gathering required files:** Go to the directory "containers" in this repo. Copy files to the docker home dir. Code arrangement should be structured. I was running into problems at the last moment, so had to resort to this approach. This is a band-aid, time permitting, I would like to correct it.
+
+cp -R app/*.py util/*.py config/*.properties ./containers/
+
+**2. Confuguring DB Connection:** Make changes to the db.properties file as follows
+(base) containers % cat db.properties
+[db]
+db_host=[db host]
+db_name=postgres 
+db_port=5432
+db_schema=m 
+db_user_key=[user]
+db_passwd_key=[password]
+db_retries_limit=50
+db_retries_interval=10
+
+db_host is ClusterIP or DNS name like "postgres-postgresql.default.svc.cluster.local", if running in Kubernetes.
+
+**3. Create two Images** for the GET and CUD services.
+
+Login to your choice of container repository. Can be online, your organization’s or local repository running on laptop or docker. Make sure you have access to pull and push images. Once that’s setup, build and upload images for EV registration GET and CUD API services.
+
+I have made a couple of docker build scripts (One for get APIs and second for CUD APIs), which you only need to execute to create and push. Only two things to change:
+
+- Pass image version tag to the script. Else, it will build with latest tag be default.
+- Replace [registry_user_name] with Container Registry user name.
+
+Execute both like this
+
+./DockerBuild_get.sh 1
+./DockerBuild_cud.sh 1
+
+(base) anuragshrivastava@Anurags-MacBook-Pro containers % ./DockerBuild_get.sh 6
+[+] Building 53.2s (10/10) FINISHED                                                                                                docker:desktop-linux
+ => [internal] load build definition from Dockerfile_ev_apis_get                                                                                   0.1s
+ => => transferring dockerfile: 1.54kB                                                                                                             0.0s
+ => [internal] load metadata for docker.io/library/python:3.8-slim                                                                                 0.7s
+ => [internal] load .dockerignore                                                                                                                  0.0s
+ => => transferring context: 2B                                                                                                                    0.0s
+ => [1/5] FROM docker.io/library/python:3.8-slim@sha256:1d52838af602b4b5a831beb13a0e4d073280665ea7be7f69ce2382f29c5a613f                           0.0s
+ => [internal] load build context                                                                                                                  0.0s
+ => => transferring context: 1.26kB                                                                                                                0.0s
+ => CACHED [2/5] WORKDIR /app                                                                                                                      0.0s
+ => [3/5] ADD . /app                                                                                                                               0.1s
+ => [4/5] RUN apt update && apt -y upgrade && apt -y install curl && apt-get -y install procps && apt -y install net-tools && apt-get install li  40.5s
+ => [5/5] RUN pip3 install flask && pip3 install fastapi && pip3 install uvicorn && pip3 install pytest && pip3 install httpx && pip3 install ps  11.2s 
+…….
+…….
+…….
+…….
+e0d4d475838b: Pushed 
+e097f7f5f56e: Pushed 
+d9f9648a0ca7: Pushed 
+37a1cefd45b9: Layer already exists 
+71be48336db2: Layer already exists 
+68927dfce826: Layer already exists 
+01183e0d6e03: Layer already exists 
+054df1200f3e: Layer already exists 
+v6: digest: sha256:81da52e671a339ac9fb90540391d2df4e9cc74b785675e6c3bef45c03cf30e12 size: 1998
+(base) anuragshrivastava@Anurags-MacBook-Pro containers % 
+
+
+(base) anuragshrivastava@Anurags-MacBook-Pro containers % ./DockerBuild_cud.sh 4
+[+] Building 71.4s (11/11) FINISHED                                                                                                docker:desktop-linux
+ => [internal] load build definition from Dockerfile_ev_apis_cud                                                                                   0.1s
+ => => transferring dockerfile: 1.72kB                                                                                                             0.0s
+ => [internal] load metadata for docker.io/library/python:3.8-slim                                                                                 1.0s
+ => [auth] library/python:pull token for registry-1.docker.io                                                                                      0.0s
+ => [internal] load .dockerignore                                                                                                                  0.0s
+ => => transferring context: 2B                                                                                                                    0.0s
+ => [1/5] FROM docker.io/library/python:3.8-slim@sha256:1d52838af602b4b5a831beb13a0e4d073280665ea7be7f69ce2382f29c5a613f                           0.0s
+ => [internal] load build context                                                                                                                  0.0s
+ => => transferring context: 1.27kB                                                                                                                0.0s
+ => CACHED [2/5] WORKDIR /app                                                                                                                      0.0s
+ => [3/5] ADD . /app                                                                                                                               0.2s
+ => [4/5] RUN apt update && apt -y upgrade && apt -y install curl && apt-get -y install procps && apt -y install net-tools && apt-get install li  45.9s
+ => [5/5] RUN pip3 install flask && pip3 install fastapi && pip3 install uvicorn && pip3 install pytest && pip3 install httpx && pip3 install ps  21.7s 
+…….
+…….
+…….
+…….
+2093624f706a: Pushed 
+37a1cefd45b9: Layer already exists 
+71be48336db2: Layer already exists 
+68927dfce826: Layer already exists 
+01183e0d6e03: Layer already exists 
+054df1200f3e: Layer already exists 
+v4: digest: sha256:fcecf7f2a7da8dc80f1d5701904519a214b5d6dcfc9bd7bf0646075331d28e8f size: 1998
+(base) anuragshrivastava@Anurags-MacBook-Pro containers % 
+
+
+
+
+Edit the two kubernetes yaml files for the image location and version in the deployment.
+
+      containers:
+      - image: anuragpppp/ev-app:v6
+        name: ev-get-app
+
+
+
+￼
+
+      containers:
+      - image: anuragpppp/ev-app-cud:v4
+        name: ev-cud-app
+
+￼
+
+Apply the kubectl files to create resources in the Minikube kubernetes cluster. 
+(base) anuragshrivastava@Anurags-MacBook-Pro containers % kubectl apply -f ev_get_apis_k8s.yaml
+deployment.apps/ev-get-app created
+service/ev-get-app unchanged
+ingress.networking.k8s.io/ev-get-app unchanged
+service/ev-get-app-service-nodeport unchanged
+
+
+(base) anuragshrivastava@Anurags-MacBook-Pro containers % kubectl apply -f ev_cud_apis_k8s.yaml
+deployment.apps/ev-cud-app created
+service/ev-cud-app unchanged
+ingress.networking.k8s.io/ev-cud-app unchanged
+service/ev-cud-app-service-nodeport unchanged
+(base) anuragshrivastava@Anurags-MacBook-Pro containers % 
+
+
+One pods for each service will show as running:
+
+(base) anuragshrivastava@Anurags-MacBook-Pro containers % kubectl get pods
+NAME                          READY   STATUS    RESTARTS   AGE
+ev-cud-app-6697f8598d-g5cbt   1/1     Running   0          5m33s
+ev-get-app-b77455b54-nl62v    1/1     Running   0          40m
+postgres-postgresql-0         1/1     Running   2          2d17h
+(base) anuragshrivastava@Anurags-MacBook-Pro containers % 
+
+Start tunnel to the node port services
+
+minikube service ev-cud-app-service-nodeport --url
+http://127.0.0.1:61991
+
+minikube service ev-get-app-service-nodeport --url
+http://127.0.0.1:59825
+
+
+Call services at these URLs from your local machine. If you need internet based access to these, then please create Load Balancer service instead of the Node Port.
+
 ### How to test and use
 
 # APIs created and arranged
