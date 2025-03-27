@@ -1,31 +1,5 @@
 
 
-/*
-update m.t_ev set 
-county = 'NA1',
-city = 'NA1',
-zip = '00001',
-census_tract = '00000001'
-where dol_veh_id = 179569743;
-
-
-update m.t_ev set 
-county = 'NA2',
-city = 'NA2',
-zip = '00002',
-census_tract = '00000002'
-where dol_veh_id = 159850029;
-
-
-update m.t_ev set 
-county = 'NA3',
-city = 'NA3',
-zip = '00003',
-census_tract = '00000003'
-where dol_veh_id = 244582593;
-*/
-
-
 CREATE TABLE IF NOT EXISTS m.t_ev
 (vin varchar(10), 
  county varchar(30), 
