@@ -24,8 +24,55 @@ The solution can be run in both local laptop/VM or in Kubernetes/Minikube. I use
 **8. Summary:** Database (in Kubernetes) holds normalized data after one time data load, APIs (in Kubernetes) talk to the database and with each other.
    
 Please see following sections for other details like logging, telemetry, updating a certain type of models etc.
-Database design
-Talk about design decisions
+
+**Database Design:**
+The database is normalized into various tables. Here are some considerations. (PK = Primary Key, FK = Foreign Key). The are taken into account after analyzing the bulk data.
+1. State is unique and has PK. Has its own table.
+2. State + County combination is unique. Same county name is present in multiple states. Hence a county table with County Id (PK) and has State Id (FK)
+3. County Id + City + Zip combination tends to be unique. This is the registration location. Hence a reg_loc table (with PK) with County Id from table in #2 above as (FK)
+4. Xensus Tract + County are considered a unique combination. Hence a census table (with PK) with County Id from table in #2 above as (FK)
+5. Car model (make, model, year) is one unique table with PK.
+6. EV Type is one unique table with PK.
+7. CAVF is one unique table with PK.
+8. DOL Vehicle id is unique. Seems like registration id. This can be considered primary key in the main Registraiton tables. VIN number repeats and each repetition has unique DOL Vehicle id.
+9. The main Registraiton tables holds records like MSRP, GPS location etc. and joins the tables from #1 to #8 above to finally make the form. The following JOIN explains this all.
+
+select			
+	ev.vin, 
+	ev.dol_veh_id,	
+	r.city,
+	r.zip,	
+	st.st,
+	cn.county,
+	m.make,
+	m.model,	
+	m.m_year,	
+	et.ev_type,
+	ca.cavf,
+	ev.ev_range,
+	ev.msrp,
+	ev.leg_dist,
+	ev.veh_location_gps,
+	ev.el_utility,
+	ct.census_t
+from 
+	m.t_ev_regs ev,
+	m.t_models m,
+	m.t_reg_loc r,
+	m.t_counties cn,	
+	m.t_states st,		
+	m.t_ev_type et,
+	m.t_cavf ca,
+	m.t_census_t ct
+where
+	ev.id_model = m.id_model and
+	ev.id_ev_type = et.id_ev_type and
+	ev.id_cavf = ca.id_cavf and
+	ev.id_census_t = ct.id_census_t and
+	ev.id_reg_loc = r.id_reg_loc and	
+	cn.id_state = st.id_state and
+	cn.id_county = r.id_county
+
 
 # Prerequisites
 The solution can be run in both local laptop/VM or in Kubernetes/Minikube. I used minikube on my laptop to deploy due to cost contraints for 2 weeks on Kubernetes on any public cloud. Minikube is free and works 90% same as any public cloud hosted Kubernetes cluster.
