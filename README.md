@@ -447,8 +447,8 @@ http://127.0.0.1:59825 ## Use this URL to connect from laptop
 
 ### How to test and use
 
-# APIs created and arranged
-# Database procedures
+Refer this: https://github.com/techoboa/ev-reg-apis/blob/main/README.md#command-line-clients
+
 
 # Command Line Clients
 
@@ -485,5 +485,12 @@ https://github.com/techoboa/ev-reg-apis/tree/main/test_results
 
 # Improvements which can be done
 
-# References
+1. All core services are implemented. A few services like delete city, county etc. are implemented as dummy due to time constraint.
+2. Currently adding telemetry details only to the file to be later read by an agent in batch mode. Can be directly sent over to the telemetry tool using REST APIs in real time.
+3. Secure the APIs using TLS and Certs
+4. Further code refinement to find opportunities to reuse code.
+5. Optional: Services can be clubbed based on domains if business needs it. Like one each for mangaing services for city, county, censut tract etc. Currently, they are arranged as two categories Create/Update/Delete and Read.
+6. Only a few APIs are commented due to time contraints as the pattern is same for all.
+7. Load Balancers/Scalability
+
 
