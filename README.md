@@ -46,19 +46,19 @@ Deploy postgres in containers using the following procedure. Followed this tutor
 
 #### Creating Database
 
-- Install helm and add bitnami helm repo for postgres
+**- Install helm and add bitnami helm repo for postgres**
 
 brew install helm
 
 helm repo add bitnami https://charts.bitnami.com/bitnami
 
-- Create Persistent volume and claim for the database using kubectl apply -f on the following two files in order:
+**- Create Persistent volume and claim for the database **using kubectl apply -f on the following two files in order:
   
 https://github.com/techoboa/ev-reg-apis/blob/main/postgres/kubernetes/postgres_pv.yml
 
 https://github.com/techoboa/ev-reg-apis/blob/main/postgres/kubernetes/postgres_pvc.yml
 
-- Download chart, untar the tgz, find the values.yaml, take a look, and update it, if needed.
+**- Download chart, untar the tgz, find the values.yaml, take a look, and update it, if needed.**
 
 helm pull bitnami/postgresql
 
@@ -66,7 +66,7 @@ tar -xvf postgresql-16.5.3.tgz
 
 helm install postgres bitnami/postgresql -f _Chart_Location_/postgresql/values.yaml
 
-- Post Install Steps:
+**- Post Install Steps:**
 
 1. PostgreSQL can be accessed via port 5432 on the following DNS names from within your cluster:
 
@@ -90,8 +90,19 @@ To connect to your database run the following command:
     kubectl port-forward --namespace default svc/postgres-postgresql 5432:5432 &
     PGPASSWORD="$POSTGRES_PASSWORD" psql --host 127.0.0.1 -U postgres -d postgres -p 5432
 
+#### Create schema:
+
+The provided recordset has ~250K records in total. It will take a lot of time to insert them one at a time in a normalized relational database using Front end APIs. Bulk load should be better choice here as its a one time load. I followed the following steps:
+
+- Please manually create a schema named "m" under default database postgres. I forgot to add the code for schema creation in the sql script. And yes, I am guilty of naming it a random "m". But later I have done a good job of naming all other objects.
+
+- Then use the sql script to create the rest of the artifacts including tables, functions and prcodecures. This will create a temporary table m._t_ev for holding the raw records and analysis. This will also create the required procedures to normalize the bulk loaded in temporary table.
+  
+https://github.com/techoboa/ev-reg-apis/blob/main/postgres/sql/ev_api_data_layer.sql
+
 
 #### Bulk Data Load Process
+- 
 
 ### APIs
 #### Deploying APIs
